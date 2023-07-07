@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="matchItemVM"
+            type="com.football.pl_fixture.ui.fixture.viewmodels.MatchItemViewModel" />
+
+        <variable
+            name="matchesItem"
+            type="com.football.pl_fixture.data.model.MatchesItem" />
+    </data>
+
+    <FrameLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:divider="@android:color/transparent"
+            android:elevation="4dp"
+
+            card_view:cardCornerRadius="15dp"
+            card_view:cardElevation="2dp"
+            card_view:cardPreventCornerOverlap="false"
+
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cv_match"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <com.like.LikeButton
+                    android:id="@+id/iv_fav"
+                    isFavourite="@{matchItemVM.isFavourite}"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:icon_size="24dp"
+                    app:icon_type="heart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:liked="true" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{matchItemVM.matchStatus}"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_team"
+                    app:layout_constraintEnd_toStartOf="@id/tv_score_team_away"
+                    app:layout_constraintStart_toEndOf="@id/tv_score_team_home"
+                    app:layout_constraintTop_toTopOf="@id/iv_home_flag"
+
+                    tools:text="Status" />
+
+                <ImageView
+                    android:id="@+id/iv_home_flag"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+
+                    android:layout_marginTop="10dp"
+                    android:src="@{matchesItem.awayteam.crest}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_fav" />
+
+
+                <TextView
+                    android:id="@+id/tv_home_team"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{matchItemVM.homeTeam}"
+
+                    android:textAlignment="textStart"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_home_flag"
+                    tools:text="home Team" />
+
+
+                <TextView
+                    android:id="@+id/tv_score_team_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{matchItemVM.homeScore}"
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+
+                    app:layout_constraintBottom_toBottomOf="@id/tv_home_team"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toEndOf="@+id/tv_home_team"
+                    app:layout_constraintTop_toTopOf="@id/iv_home_flag"
+                    tools:text="1" />
+
+
+                <TextView
+                    android:id="@+id/tv_score_team_away"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@{matchItemVM.awayScore}"
+
+                    android:textColor="@color/black"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_away_team"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_away_team"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="@id/iv_away_flag"
+                    tools:text="0" />
+
+                <TextView
+                    android:id="@+id/tv_match_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@{matchItemVM.matchTime}"
+                    android:visibility="@{matchItemVM.matchHasStarted? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_score_team_away"
+                    app:layout_constraintHorizontal_bias="0.5"
+
+                    app:layout_constraintStart_toEndOf="@+id/tv_score_team_home"
+                    app:layout_constraintTop_toTopOf="@id/tv_away_team" />
+
+                <ImageView
+                    android:id="@+id/iv_away_flag"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_fav" />
+
+                <TextView
+                    android:id="@+id/tv_away_team"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+
+                    android:singleLine="true"
+                    android:text="@{matchItemVM.awayTeam}"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_away_flag"
+                    tools:text="Away Team" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </FrameLayout>
+</layout>
