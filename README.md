@@ -1,7 +1,7 @@
 # Premier league app
 
 # use app 
-you should register in this link to get api_key in credentials.properties
+you should register in this link (https://www.football-data.org/documentation/quickstart) to get api_key in credentials.properties
 
 ## Libraries and Frameworks
 - [Retrofit & OkHttp](https://github.com/square/retrofit) - Networking.
