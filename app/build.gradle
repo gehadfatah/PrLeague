@@ -39,6 +39,10 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 androidExtensions {
@@ -70,6 +74,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.6"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation 'com.akaita.java:rxjava2-debug:1.4.0'
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.3.1'
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -113,5 +119,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
     testImplementation "androidx.test:core-ktx:1.2.0"
     androidTestImplementation "androidx.arch.core:core-testing:2.0.0"
+    implementation 'com.squareup.retrofit2:converter-scalars:2.8.1'
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+
 
 }

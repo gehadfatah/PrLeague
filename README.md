@@ -21,4 +21,4 @@ you should register in this link (https://www.football-data.org/documentation/qu
 ## TODO
 - [ ] Do more detail layouts
 - [ ] fix unit test 
-- Use cases and Repositories using Mockk
+- [ ] Use cases and Repositories using Mockk

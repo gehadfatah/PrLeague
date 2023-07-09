@@ -8,7 +8,9 @@ import com.football.pl_fixture.domain.usecases.HomeUseCase
 import com.football.pl_fixture.ui.base.BaseViewModel
 import com.football.pl_fixture.ui.fixture.FixtureAdapter
 import com.football.pl_fixture.ui.fixture.OnFavouriteClickListener
+import com.football.pl_fixture.utils.Utils
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FixtureViewModel(private val homeUseCase: HomeUseCase) :
     BaseViewModel(), OnFavouriteClickListener {
@@ -21,22 +23,25 @@ class FixtureViewModel(private val homeUseCase: HomeUseCase) :
 
     init {
         fetchMatches()
+        //getMatchesWithDates()
     }
 
 
     fun fetchMatches() {
         viewModelScope.launch {
-            val dbMatchesList = homeUseCase.getAllMatchesDb()
 
-            if (dbMatchesList.isEmpty()) {
+            try {
                 val apiMatchesList = homeUseCase.getMatches()
-                homeUseCase.insertMatch(*apiMatchesList.matches.toTypedArray())
-                onFetchingListSuccess(apiMatchesList.matches)
-                loadingVisibility.value=false
-            } else {
 
+                homeUseCase.insertMatch(*apiMatchesList.matches.toTypedArray())
+                val dbMatchesList = homeUseCase.getAllMatchesDb()
+                onFetchingListSuccess(dbMatchesList)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
 
+
+            loadingVisibility.value = (false)
         }
 
     }
@@ -60,7 +65,7 @@ class FixtureViewModel(private val homeUseCase: HomeUseCase) :
         viewModelScope.launch {
 
             adapter.addMatches(homeUseCase.getMatches().matches)
-
+            loadingVisibility.value = false
         }
     }
 
@@ -68,5 +73,15 @@ class FixtureViewModel(private val homeUseCase: HomeUseCase) :
         adapter.addMatches(matches)
     }
 
+    fun getMatchesWithDates() {
+        viewModelScope.launch {
+
+            homeUseCase.getMatchList(Utils.getDates(Date(), true))?.matches?.toTypedArray()
+                ?.let { homeUseCase.insertMatch(*it) }
+            val dbMatchesList = homeUseCase.getAllMatchesDb()
+            onFetchingListSuccess(dbMatchesList)
+            loadingVisibility.value=false
+        }
+    }
 
 }

@@ -5,4 +5,7 @@ import com.football.pl_fixture.data.model.MatchesItem
 
 data class FixtureResponse(
 	@field:SerializedName("matches") val matches: List<MatchesItem> = emptyList()
+	,
+	@SerializedName("errors")
+	val errors: String?=null
 )

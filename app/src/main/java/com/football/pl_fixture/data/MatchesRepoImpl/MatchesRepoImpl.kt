@@ -1,10 +1,12 @@
 package com.football.pl_fixture.data.MatchesRepoImpl
 
+import com.football.pl_fixture.data.commondatamodel.ResultData
 import com.football.pl_fixture.data.locale.room.dao.MatchesDao
 import com.football.pl_fixture.data.model.MatchesItem
 import com.football.pl_fixture.data.services.FixtureAPI
 import com.football.pl_fixture.data.services.response.FixtureResponse
 import com.football.pl_fixture.domain.MatchesRepo
+import com.football.pl_fixture.utils.translateToError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -17,14 +19,41 @@ class MatchesRepoImpl(
 ) :
     MatchesRepo {
 
-    override suspend fun getMatchList(from: String, to: String): Response<FixtureResponse> {
-        return service.getMatchList(from, to)
+    override suspend fun getMatchList(from: String, to: String): FixtureResponse? =
+        withContext(context) {
+
+            val response = service.getMatchList(from, to)
+            if (response.isSuccessful) {
+                response.body()
+            } else FixtureResponse(errors = " ${response.code()} ${response.message()}")
+
+        }
+
+    override suspend fun getMatchListo() = withContext(context) {
+        service.getMatches() ?: FixtureResponse()
     }
 
-    override suspend fun getMatchListo(): FixtureResponse = withContext(context) {
-        service.getMatches().blockingGet() ?: FixtureResponse()
-    }
+    override suspend fun getMatches(): ResultData<FixtureResponse> = withContext(context) {
 
+
+        try {
+            val response = service.getMatches()
+            if (response.errors == null) {
+                val result = response
+                result.let {
+
+                    ResultData.Success(response)
+                }
+            } else {
+                ResultData.Failed(
+                    title = "API Error",
+                    message = " Reason - ${response.errors}"
+                )
+            }
+        } catch (ex: Exception) {
+            ex.translateToError()
+        }
+    }
     override suspend fun getFavouriteMatches(): List<MatchesItem> = withContext(context) {
         matchesDao.getFavouriteMatches
     }

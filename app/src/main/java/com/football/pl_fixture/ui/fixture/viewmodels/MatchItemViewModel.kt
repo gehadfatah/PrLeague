@@ -37,8 +37,8 @@ class MatchItemViewModel : BaseViewModel() {
         _homeTeamImg.value = matchesItem.homeTeam.crest
         _wayTeamImg.value = matchesItem.awayteam.crest
         _matchStatus.value = matchesItem.status
-        _awayScore.value = if (matchesItem.score?.fullTime?.awayTeam.toString().isNullOrEmpty())"-" else matchesItem.score?.fullTime?.awayTeam.toString()
-        _homeScore.value = if (matchesItem.score?.fullTime?.homeTeam.toString().isNullOrEmpty()) "-" else matchesItem.score?.fullTime?.homeTeam.toString()
+        _awayScore.value = if (matchesItem.score?.fullTime?.awayTeam?.toString().isNullOrEmpty())"-" else matchesItem.score?.fullTime?.awayTeam.toString()
+        _homeScore.value = if (matchesItem.score?.fullTime?.homeTeam?.toString().isNullOrEmpty()) "-" else matchesItem.score?.fullTime?.homeTeam.toString()
         isFavourite.value = matchesItem.isFavourite
 
         when (matchesItem.status) {
